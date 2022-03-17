@@ -3,7 +3,6 @@ import torch
 import astra
 import tomosipo as ts
 import tomosipo.torch_support
-from tomosipo.qt import animate
 import ts_algorithms as tsa
 from matplotlib import pyplot as plt
 import math
@@ -70,11 +69,6 @@ if __name__ == "__main__":
     
     vgs_full = make_delayed_vgs(vg, T, new_object_delay, num_objects)
     
-    # Make an animation of the geometries and save it
-    #s = ts.scale(0.4)
-    #scaled_vgs = [s * vg for vg in vgs]
-    #animation = animate(*scaled_vgs, s * pg)
-    #animation.save("geometry_video.mp4")
     # Create an operator from the transformed geometries
     print("making operators")
     A = ts.operator(T*vg, pg)

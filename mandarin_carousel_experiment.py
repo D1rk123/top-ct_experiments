@@ -5,7 +5,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 import tomosipo as ts
-from tomosipo.qt import animate
 
 import ct_experiment_utils as ceu
 from multi_operator import MultiOperator
@@ -74,11 +73,6 @@ if __name__ == "__main__":
     vgs_full = make_delayed_vgs(vg, T, new_object_delay, num_objs)
     vgs_after = make_overlapping_vgs_after(vg, T, num_proj, new_object_delay)
     vgs_ba = make_overlapping_vgs_before_after(vg, T, num_proj, new_object_delay)
-    
-    # Make an animation of the geometries and save it
-    #s = ts.scale(0.008)
-    #animation = animate(*[s * vg for vg in vgs_full], s * pg)
-    #animation.save(experiment_folder / "geometry_video.mp4")
     
     # Make projection operators for: one object (A), the together method
     # (B_full), the subtract method (B_after) and the submatrix method (B_ba)

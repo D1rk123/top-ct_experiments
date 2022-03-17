@@ -3,7 +3,6 @@ import torch
 import astra
 import tomosipo as ts
 import tomosipo.torch_support
-from tomosipo.qt import animate
 from matplotlib import pyplot as plt
 import math
 import ct_experiment_utils as ceu
@@ -294,11 +293,6 @@ if __name__ == "__main__":
     vgs_after = make_overlapping_vgs_after(vg, T, num_angles, new_object_delay)
     vgs_ba = make_overlapping_vgs_before_after(vg, T, num_angles, new_object_delay)
     
-    # Make an animation of the geometries and save it
-    #s = ts.scale(0.4)
-    #scaled_vgs = [s * vg for vg in vgs]
-    #animation = animate(*scaled_vgs, s * pg)
-    #animation.save("geometry_video.mp4")
     # Create an operator from the transformed geometries
     print("making operators")
     A = ts.operator(T*vg, pg)
