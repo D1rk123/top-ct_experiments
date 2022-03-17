@@ -1,0 +1,7 @@
+Cudatoolkit 10.2 was used for the experiments, but that no longer supports recent GPUs (RTX30XX or newer).
+You can use cudatoolkit 11.3 instead in that case.
+
+Original:
+conda create -n topct python=3.8 cudatoolkit=10.2 pytorch=1.7.1 scikit-image tomosipo tifffile matplotlib tqdm ffmpeg ffmpeg-python pyqtgraph pyqt pyopengl -c aahendriksen -c pytorch -c defaults -c astra-toolbox -c conda-forge
+Recent GPU (RTX30XX or newer):
+conda create -n topct python=3.8 cudatoolkit=11.3 pytorch=1.7.1 scikit-image tomosipo tifffile matplotlib tqdm ffmpeg ffmpeg-python pyqtgraph pyqt pyopengl -c aahendriksen -c pytorch -c defaults -c astra-toolbox -c conda-forge

@@ -6,7 +6,6 @@ from matplotlib import pyplot as plt
 
 import tomosipo as ts
 from tomosipo.qt import animate
-import ts_algorithms as tsa
 
 import ct_experiment_utils as ceu
 from multi_operator import MultiOperator
@@ -33,7 +32,7 @@ if __name__ == "__main__":
     new_object_delay = full_new_object_delay // skip_proj
     num_objs = 23
     sirt_iterations = 100
-    num_gpus = 4
+    num_gpus = 1
     
     car_mag = 954.145000
     car_tra = 33.22569524099723
@@ -41,6 +40,7 @@ if __name__ == "__main__":
     obj_size = 64
     src_det_dist = 1098
     start_angle = -0.15
+
     
     # Use multiple GPUs if available
     astra.set_gpu_index(list(range(num_gpus)))
@@ -49,8 +49,7 @@ if __name__ == "__main__":
 
     experiment_name = "mandarin_carousel_recons"
     experiment_folder = ceu.make_new_experiment_folder(get_results_folder(), name=experiment_name)    
-    
-    mask = make_cylinder_mask(256, 256)
+
     
     # set up a cone beam projection geometry
     pg = ts.cone(
@@ -71,16 +70,15 @@ if __name__ == "__main__":
     T = rot * tra
     
     # According to the reconstruction strategies together, subtract and
-    # submatrix set up the volume geometries needed for the projection operator
-    # B
+    # submatrix set up the volume geometries needed for the projection operator B
     vgs_full = make_delayed_vgs(vg, T, new_object_delay, num_objs)
     vgs_after = make_overlapping_vgs_after(vg, T, num_proj, new_object_delay)
     vgs_ba = make_overlapping_vgs_before_after(vg, T, num_proj, new_object_delay)
     
     # Make an animation of the geometries and save it
     #s = ts.scale(0.008)
-    #animation = animate(*[s * vg for vg in vgs], s * pg)
-    #animation.save("geometry_video.mp4")
+    #animation = animate(*[s * vg for vg in vgs_full], s * pg)
+    #animation.save(experiment_folder / "geometry_video.mp4")
     
     # Make projection operators for: one object (A), the together method
     # (B_full), the subtract method (B_after) and the submatrix method (B_ba)
@@ -93,8 +91,11 @@ if __name__ == "__main__":
     # can be used in reconstruction
     dark_field = torch.mean(torch.from_numpy(ceu.load_stack(scan_path, dtype=np.float32, prefix="di")), axis=0)
     flat_field = torch.mean(torch.from_numpy(ceu.load_stack(scan_path, dtype=np.float32, prefix="io")), axis=0)
-    y = torch.from_numpy(ceu.load_stack(scan_path, stack_axis=1, dtype=np.float32, prefix="scan_", range_stop=11200, range_step=skip_proj))
+    y = torch.from_numpy(ceu.load_stack(scan_path, stack_axis=1, dtype=np.float32, prefix="scan_",
+        range_stop=full_num_proj+((num_objs-1)*full_new_object_delay), range_step=skip_proj))
     preprocess_in_place(y, dark_field, flat_field)
+    mask = make_cylinder_mask(256, 256)
+
     
     # Reconstruct with together method
     recon_together = sirt(B_full, y[None, ...], sirt_iterations, positivity_constraint=True, volume_mask=mask[None, ...])

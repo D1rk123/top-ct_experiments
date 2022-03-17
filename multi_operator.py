@@ -5,7 +5,7 @@ import numpy as np
 from tomosipo.Operator import BackprojectionOperator
 
 class MultiOperator:
-"""
+    """
     Class for handling matrix operations for CT scanning geometries with
     overlapping projections.
     
@@ -21,7 +21,7 @@ class MultiOperator:
     y = A(x) -or- A(x, out=y)
     Backprojections are applied as follows:
     b = A.T(y) -or- A.T(y, out=b)
-"""
+    """
 
     def __init__(self, vgs, pgs, voxel_supersampling=1, detector_supersampling=1, additive=False):
         self._vgs = vgs
