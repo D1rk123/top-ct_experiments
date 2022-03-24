@@ -2,6 +2,8 @@
 
 This repository contains code to perform TOP-CT (Trajectory with Overlapping Projections x-ray Computed Tomography) experiments. The class MultiOperator can be used for experiments in general. Moreover three experiments are included from the work in progress paper on TOP-CT: carousel\_simulation\_experiment.py is the first experiment of that paper, attenuation\_tuning\_experiment.py is the second experiment and mandarin\_carousel\_experiment.py is the third experiment.
 
+## TOP-CT mandarin dataset
+A TOP-CT dataset of 23 mandarins is available on Zenodo (https://doi.org/10.5281/zenodo.6351647). The mandarin\_carousel\_experiment.py script was written specifically to reconstruct this dataset.
 
 ## Running the code
 To clone the repository with submodules use the following command:
